@@ -5,7 +5,9 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from ssl import OP_NO_TLSv1_2
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class AuditoriaCuenta(models.Model):
@@ -33,14 +35,24 @@ class Cliente(models.Model):
     customer_dni = models.TextField(db_column='customer_DNI')  # Field name made lowercase.
     dob = models.TextField(blank=True, null=True)
     branch_id = models.IntegerField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'cliente'
 
+    def __str__(self):
+        return f"{self.customer_name} {self.customer_surname}"
+
 
 class Cuenta(models.Model):
     account_id = models.AutoField(primary_key=True)
+    # cliente = models.ForeignKey(
+    #     Cliente, 
+    #     on_delete=models.CASCADE, 
+    #     db_column="customer_id",
+    #     related_name="cuentas",
+    #     ) #RESOLVER DB COLUMN
     customer_id = models.IntegerField()
     balance = models.IntegerField()
     iban = models.TextField()
@@ -49,6 +61,9 @@ class Cuenta(models.Model):
     class Meta:
         managed = False
         db_table = 'cuenta'
+
+    def __str__(self):
+        return f"{self.account_id}-{self.iban}"
 
 
 class Direccion(models.Model):

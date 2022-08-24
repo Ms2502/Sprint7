@@ -52,7 +52,7 @@ input[type="email"] {
   background: none;
 }
 
-input[type="submit"] {
+#buttonwrapper {
   border: none;
   display: block;
   background-color: #3ca9e2;
