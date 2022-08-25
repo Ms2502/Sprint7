@@ -35,7 +35,6 @@ class Cliente(models.Model):
     customer_dni = models.TextField(db_column='customer_DNI')  # Field name made lowercase.
     dob = models.TextField(blank=True, null=True)
     branch_id = models.IntegerField()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -47,13 +46,13 @@ class Cliente(models.Model):
 
 class Cuenta(models.Model):
     account_id = models.AutoField(primary_key=True)
-    # cliente = models.ForeignKey(
-    #     Cliente, 
-    #     on_delete=models.CASCADE, 
-    #     db_column="customer_id",
-    #     related_name="cuentas",
-    #     ) #RESOLVER DB COLUMN
-    customer_id = models.IntegerField()
+    customer = models.ForeignKey(
+        Cliente, 
+        on_delete=models.CASCADE, 
+        db_column="customer_id",
+        related_name="cuentas",
+        ) #RESOLVER DB COLUMN
+    # customer_id = models.IntegerField()
     balance = models.IntegerField()
     iban = models.TextField()
     tipo_cuenta = models.ForeignKey('TipoCuenta', models.DO_NOTHING, blank=True, null=True)
