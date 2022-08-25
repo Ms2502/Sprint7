@@ -37,7 +37,7 @@ class Cliente(models.Model):
     branch_id = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'cliente'
 
     def __str__(self):
@@ -51,14 +51,14 @@ class Cuenta(models.Model):
         on_delete=models.CASCADE, 
         db_column="customer_id",
         related_name="cuentas",
-        ) #RESOLVER DB COLUMN
+        )
     # customer_id = models.IntegerField()
     balance = models.IntegerField()
     iban = models.TextField()
     tipo_cuenta = models.ForeignKey('TipoCuenta', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'cuenta'
 
     def __str__(self):
@@ -120,7 +120,13 @@ class Prestamo(models.Model):
     loan_type = models.TextField()
     loan_date = models.TextField()
     loan_total = models.IntegerField()
-    customer_id = models.IntegerField()
+    customer = models.ForeignKey(
+        Cliente, 
+        on_delete=models.CASCADE, 
+        db_column="customer_id",
+        related_name="prestamos",
+        )
+    # customer_id = models.IntegerField()
 
     class Meta:
         managed = False

@@ -11,7 +11,7 @@ def index1(request):
     return render(request,"clientes/index.html")
  
 def index(request):
-    listado_clientes = Cliente.objects.all()[:5]
+    listado_clientes = Cliente.objects.all()
     context = dict(listado_clientes=listado_clientes)
     return render(request,"clientes/index1.html",context)
 
@@ -20,3 +20,4 @@ def detail(request,customer_id):
     context = dict(cliente=cliente)
 
     return render(request,"clientes/detail.html",context)
+
