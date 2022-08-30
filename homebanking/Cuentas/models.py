@@ -36,7 +36,7 @@ class Cliente(models.Model):
     dob = models.TextField(blank=True, null=True)
     branch_id = models.IntegerField()
 
-    # user = models.OneToOneField(User,null =True, blank=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,null =True, blank=True, on_delete=models.CASCADE)
 
 
     class Meta:
