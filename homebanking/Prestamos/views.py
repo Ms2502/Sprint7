@@ -11,4 +11,4 @@ def pedirprestamo(request,customer_id):
     cliente = Cliente.objects.get(customer_id=customer_id)
     print(valor)
     Prestamo.objects.create(customer_id=customer_id, loan_total = valor)
-    return redirect("prestamos-pedirprestamo",customer_id)
+    return redirect("cliente-detail",customer_id)
