@@ -11,20 +11,19 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        
         user = authenticate(request, username=username, password=password)
+        cus_id = request.user.cliente.customer_id
         if user is  None:
             return render(request, "login/login.html")
         else:
             login(request,user)
-            return redirect("clientes-index")
+            return redirect("clientes-detail",cus_id) #redirige aca cuando el usuario se logea correctamente
     else:
         return render(
             request, 
             "login/login.html",
-            context=dict(error="Usuario o contraseña invalidos")
+            context=dict(error="Usuario o contraseña invalidos") #hay que arreglar esto
             )
-
 
 def logout_view(request):
     logout(request)

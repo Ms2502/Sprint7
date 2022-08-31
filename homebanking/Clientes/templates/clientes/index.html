@@ -69,8 +69,8 @@
             <h5 class="card-header">Hola {{ request.user.cliente.customer_name}}!</h5>
               <div class="card-body">
                 <h6 class="card-title">Estado de tu cuenta:</h6>
-                <p class="card-text"> Cuenta Única </p>
-                <p class="card-text"> $1000 </p>
+                <p class="card-text"> ${{cuenta.balance}} </p>
+                <p class="card-text"> {{ cuenta.tipo_cuenta.tipo_cuenta_nombre}} </p>
                 <a href="\pages\movimientos\movimientos3.html" class="btn btn-primary">Ver movimientos</a>
               </div>
         </div>
@@ -78,23 +78,20 @@
         </div>  
             <div class="container py-2 px-3" > <!-- aca va la lista de mov -->
                 <h2>Movimientos</h2>
+                
                 <ol class="list-group list-group">
+                    {% for m in movimientos %}
+    
                     <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-3 me-auto">
-                        <h4><div>Restaurante</div></h4>
-                      </div>
-                      <pc class="text-center"></p>
-                        <h3><span class="badge bg-primary rounded-pill">$3450</span></h3>
-                        <p class="text-center"><small>hace 3 dias</small></p>
+                        <div class="ms-3 me-auto">
+                          <h4><div>{{m.tipo_operacion}}</div></h4>
+                        </div>
+                        <pc class="text-center"></p>
+                          <h3><span class="badge bg-primary rounded-pill">${{ m.monto }}</span></h3>
+                          <p class="text-center"><small>{{ m.hora }}</small></p>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h4><div>Local de ropa</div></h4>
-                      </div>
-                      <pc class="text-center"></p>
-                        <h3><span class="badge bg-primary rounded-pill">$3450</span></h3>
-                        <p class="text-center"><small>hace 3 dias</small></p>
-                    </li>
+
+                    {% endfor %}
                   </ol>
             </div>
         </div>
