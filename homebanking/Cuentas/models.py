@@ -38,7 +38,6 @@ class Cliente(models.Model):
 
     user = models.OneToOneField(User,null =True, blank=True, on_delete=models.CASCADE)
 
-
     class Meta:
         managed = True
         db_table = 'cliente'
