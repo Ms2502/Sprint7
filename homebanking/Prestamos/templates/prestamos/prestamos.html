@@ -2,7 +2,7 @@
 {% block content %}
 
 <form action="{% url 'prestamos-pedirprestamo' cuenta.customer_id_id %}" method="post">
-<div class="container py-2 px-3" >
+<div class="container py-2 px-3 border-primary my-3" >
 <h2>¡Pedí tu prestamo pre-aprobado!</h2>
     <form>
         {% csrf_token %}
@@ -23,7 +23,7 @@
         </fieldset>
 
         <div class="d-grid gap-2 col-6 mx-auto">
-            <input class="btn btn-primary" type="submit" value="Pedir">
+            <input class="btn btn-primary my-3" type="submit" value="Pedir">
         </div>
 
     </form>
