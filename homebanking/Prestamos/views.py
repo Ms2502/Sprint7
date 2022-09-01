@@ -1,13 +1,12 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-
 
 # Create your views here.
 
-from cuentas.models import Cliente, Prestamo,Cuenta
+from cuentas.models import Cliente, Prestamo, Cuenta
 from datetime import datetime
 
+@login_required(login_url="/login/") 
 def indexprestamo(request,customer_id):
     cuenta = Cuenta.objects.get(customer_id=customer_id)
     prestamos= Prestamo.objects.filter(customer_id = customer_id)    
@@ -16,22 +15,48 @@ def indexprestamo(request,customer_id):
 
 @login_required(login_url="/login/") 
 def pedirprestamo(request,customer_id):
-    valor = request.POST.get("valor")
+    valor = int(request.POST.get("valor"))
     tipoprestamo = request.POST.get("loantype")
     fechaprestamo = datetime.now().strftime("%d-%m-%Y")
-    tipocliente ="x"
-    cliente = Cliente.objects.get(customer_id=customer_id)
+    tipocliente = Cliente.objects.get(customer_id=customer_id).tipo_cliente
+
+    if tipocliente == 1: #classic
+        valor_max = 100000
+        if valor > valor_max:
+            error = f"Monto maximo excedido (monto maximo permitido: {valor_max})"
+            pass
+        else:
+            print("transaccion exitosa")
+            success = "Prestamo procesado con exito"
+            Prestamo.objects.create(customer_id=customer_id, loan_total = valor,loan_type = tipoprestamo, loan_date = fechaprestamo)
+
+    elif tipocliente == 2: #gold
+        valor_max = 300000
+        if valor > valor_max:
+            error = f"Monto maximo excedido (monto maximo permitido: {valor_max})"
+            pass
+        else:
+            print("transaccion exitosa")
+            success = "Prestamo procesado con exito"
+
+            Prestamo.objects.create(customer_id=customer_id, loan_total = valor,loan_type = tipoprestamo, loan_date = fechaprestamo)
+
+    elif tipocliente == 3: #black
+        valor_max = 500000
+        if valor > valor_max:
+            error = f"Monto maximo excedido (monto maximo permitido: {valor_max})"
+            pass
+        else:
+            print("transaccion exitosa")
+            success = "Prestamo procesado con exito"
+            Prestamo.objects.create(customer_id=customer_id, loan_total = valor,loan_type = tipoprestamo, loan_date = fechaprestamo)
+
+
     print(valor)
     print(tipoprestamo)
     print(fechaprestamo)
-    # Prestamo.objects.create(customer_id=customer_id, loan_total = valor,loan_type = tipoprestamo, loan_date = fechaprestamo)
+    print(tipocliente)
+    if 'error' in locals(): print(error)
+
     return redirect("indexprestamo",customer_id)
-
-
-# def pedirprestamo(request,customer_id):
-#     valor = request.POST.get("valor")
-#     cliente = Cliente.objects.get(customer_id=customer_id)
-#     # print(valor)
-#     # Prestamo.objects.create(customer_id=customer_id, loan_total = valor)
-#     # context={}
-#     return render(request,"prestamos/prestamos.html")
+    
