@@ -12,7 +12,7 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        cus_id = request.user.cliente.customer_id
+        cus_id = user.cliente.customer_id
         if user is  None:
             return render(request, "login/login.html")
         else:
