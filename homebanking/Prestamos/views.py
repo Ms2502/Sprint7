@@ -51,11 +51,6 @@ def pedirprestamo(request,customer_id):
             success = "Prestamo procesado con exito"
             Prestamo.objects.create(customer_id=customer_id, loan_total = valor,loan_type = tipoprestamo, loan_date = fechaprestamo)
 
-
-    print(valor)
-    print(tipoprestamo)
-    print(fechaprestamo)
-    print(tipocliente)
     if 'error' in locals(): print(error)
 
     return redirect("indexprestamo",customer_id)
